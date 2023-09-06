@@ -1,23 +1,38 @@
-import logo from './logo.svg';
 import './App.css';
-
+import { useState } from 'react';
+let galobalId=0;
 function App() {
+  const [item,setItem]=useState("")
+  const [Items,setItems]=useState([])
+  function del(id){
+       setItems(olditem=>olditem.filter(i=>i.id!==id))
+    }
+  const additem=()=>{
+    const updated=[...Items,{ITEM:item,id:galobalId++}]
+     setItems(updated)
+     setItem("")
+    }
+    //  console.log(Items)
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className='GroceryBox'>
+        <h1>Grocery Bud</h1>
+       <div className='Additem'>
+        <input type='text' value={item}  onChange={e=>{setItem(e.target.value)}} />
+        <button onClick={additem}>Add Item</button>
+       </div>
+       <div className='list'>
+       {
+     Items.map((v, i) => {
+        return<div className='item' key={i}> 
+         <li>{v.ITEM}</li>
+         <button onClick={()=>{del(v.id)}}>del</button>
+        </div>;
+      })
+}
+
+       </div>
+       </div>
     </div>
   );
 }
